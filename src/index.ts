@@ -1,4 +1,4 @@
-import express, { Express, Request, Response } from "express";
+import express, { Express, Request, Response, NextFunction } from "express";
 import dotenv from "dotenv";
 
 dotenv.config()
@@ -58,9 +58,20 @@ app.delete("/users", (req: Request, res: Response) => {
     res.json(users)
 })
 
+// MIDDLEWARE
+const isAuthorize = (req: Request, res: Response, next: NextFunction) => {
+    const authHeader = req.headers.authorization
+    if(authHeader === 'mysecretvalue'){
+        next()
+    }else {
+        res.status(401)
+        res.json({msg: "no access"})
+    }
+}
+
 // GET ONE USER
 // if you want in js convert something from string to a number add +
-app.get("/users/:id", (req: Request, res: Response) => {
+app.get("/users/:id", isAuthorize, (req: Request, res: Response) => {
     const id = +req.params.id
     const user = users.filter(user => user.id === id)
     res.json(user)
