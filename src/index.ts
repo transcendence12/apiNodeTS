@@ -1,4 +1,4 @@
-import express, { Express, Request, Response, NextFunction } from "express";
+import express, { Express, Request, Response, NextFunction, RequestHandler } from "express";
 import dotenv from "dotenv";
 
 dotenv.config()
@@ -59,7 +59,7 @@ app.delete("/users", (req: Request, res: Response) => {
 })
 
 // MIDDLEWARE
-const isAuthorized = (req: Request, res: Response, next: NextFunction) => {
+const isAuthorized: RequestHandler = (req: Request, res: Response, next: NextFunction) => {
     const authHeader = req.headers.authorization
     if(authHeader === 'mysecretvalue'){
         next()
