@@ -59,7 +59,7 @@ app.delete("/users", (req: Request, res: Response) => {
 })
 
 // MIDDLEWARE
-const isAuthorize = (req: Request, res: Response, next: NextFunction) => {
+const isAuthorized = (req: Request, res: Response, next: NextFunction) => {
     const authHeader = req.headers.authorization
     if(authHeader === 'mysecretvalue'){
         next()
@@ -71,7 +71,7 @@ const isAuthorize = (req: Request, res: Response, next: NextFunction) => {
 
 // GET ONE USER
 // if you want in js convert something from string to a number add +
-app.get("/users/:id", isAuthorize, (req: Request, res: Response) => {
+app.get("/users/:id", isAuthorized, (req: Request, res: Response) => {
     const id = +req.params.id
     const user = users.filter(user => user.id === id)
     res.json(user)
