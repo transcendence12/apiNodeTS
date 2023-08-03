@@ -58,7 +58,13 @@ app.delete("/users", (req: Request, res: Response) => {
     res.json(users)
 })
 
-
+// GET ONE USER
+// if you want in js convert something from string to a number add +
+app.get("/users/:id", (req: Request, res: Response) => {
+    const id = +req.params.id
+    const user = users.filter(user => user.id === id)
+    res.json(user)
+})
 
 
 // start server
